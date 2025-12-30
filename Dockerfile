@@ -20,4 +20,3 @@ COPY --from=build /app/target/*.jar spring-boot-mongo.jar
 EXPOSE 8080
 
 CMD ["java", "-jar", "spring-boot-mongo.jar"]
-]
