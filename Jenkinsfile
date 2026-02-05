@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Cloning Repository..."
-                git branch: 'main',
+                git branch: 'feature',
                     url: 'https://github.com/Pvreddy1/spring-boot-mongo-docker-kkfunda.git'
             }
         }
