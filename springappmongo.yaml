@@ -23,7 +23,7 @@ stringData:
 
 ---
 # =========================
-# PersistentVolumeClaim (EKS SAFE)
+# PersistentVolumeClaim 
 # =========================
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -36,6 +36,24 @@ spec:
     requests:
       storage: 5Gi
 
+---
+# =========================
+# PersistentVolume
+# =========================
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/mongo
+    
 ---
 # =========================
 # Spring Boot Deployment
@@ -87,7 +105,7 @@ kind: Service
 metadata:
   name: springapp
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: springapp
   ports:
@@ -96,6 +114,11 @@ spec:
 
 ---
 # =========================
+
+# image: mongo:8.0.9-noble
+
+# image: mongo:6.0
+
 # MongoDB ReplicaSet
 # =========================
 apiVersion: apps/v1
@@ -114,7 +137,7 @@ spec:
     spec:
       containers:
       - name: mongodbcontainer
-        image: mongo:6.0
+        image: mongo:8.0.9-noble
         ports:
         - containerPort: 27017
         env:
